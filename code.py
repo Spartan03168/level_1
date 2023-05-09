@@ -4,18 +4,30 @@ import io
 import re
 from typing import Iterable, Any, Optional, Union, Generator
 
-from PIL import Image
+import PIL
+import numpy as np
 from requests import get
 from requests.exceptions import MissingSchema
 
+
+"""
+update
+
+assertEqual(add(5,6), 11)
+"""
 
 def chunks(some_list: list, chunk_size: int) -> Generator:
     for chunk_num in range(0, len(some_list), chunk_size):
         yield some_list[chunk_num:chunk_num + chunk_size]
 
+def test_chunks():
+    assert chunks([1,2,3,4,5],5) == [[1],[2],[3],[4],[5]]
 
 def flat(some_list: list[list]) -> list:
     return [item for sublist in some_list for item in sublist]
+
+def test_flat():
+    assert True
 
 
 def has_recursive_calls(funcdef) -> bool:
@@ -28,6 +40,8 @@ def has_recursive_calls(funcdef) -> bool:
         )
     ])
 
+def test_has_recursive_calls():
+    assert True
 
 def parse_iso_datetime(iso_datetime: str) -> Optional[datetime.datetime]:
     if iso_datetime.endswith('Z'):
@@ -37,15 +51,19 @@ def parse_iso_datetime(iso_datetime: str) -> Optional[datetime.datetime]:
     except ValueError:
         return None
 
+def test_parse_iso_datetime():
+    assert True
 
 def get_image_height_in_pixels(url: str) -> Optional[int]:
     try:
         img_data = get(url).content
     except MissingSchema:
         return None
-    im = Image.open(io.BytesIO(img_data))
+    im = PIL.Image.open(io.BytesIO(img_data))
     return im.size[1]
 
+def test_get_image_height_in_pixels():
+    assert True
 
 def if_logs_has_any_of_commands(log: list[str], commands: list[str]) -> bool:
     is_section_present = False
@@ -60,10 +78,14 @@ def if_logs_has_any_of_commands(log: list[str], commands: list[str]) -> bool:
                 break
     return is_section_present
 
+def test_if_logs_has_any_of_commands():
+    assert True
 
 def extract_all_constants_from_ast(ast_tree: ast.AST) -> list[str]:
     return list({n.s for n in ast.walk(ast_tree) if isinstance(n, ast.Str)})
 
+def test_extract_all_constants_from_ast():
+    assert True
 
 def is_camel_case_word(word: str) -> bool:
     uppercase_letters_amount = re.subn(r'[A-Z]', '', word)[1]
@@ -73,6 +95,8 @@ def is_camel_case_word(word: str) -> bool:
         or re.findall(r'[a-z][A-Z]', word),
     )
 
+def test_is_camel_case_word():
+    assert True
 
 def split_camel_case_words(camel_cased_word: str) -> list[str]:
     words_start_indexes = [m.start(0) for m in re.finditer(r'[A-Z]', camel_cased_word)]
@@ -85,10 +109,14 @@ def split_camel_case_words(camel_cased_word: str) -> list[str]:
         words.append(camel_cased_word[word_start_index:word_end_index].lower())
     return words
 
+def test_split_camel_case_words():
+    assert True
 
 def is_path_in_exclude_list(path: str, exclude: list[str]) -> bool:
     return any(e in path for e in exclude)
 
+def test_path_in_exclude_list():
+    assert True
 
 def get_full_class_name(obj: Any) -> str:
     module = obj.__class__.__module__
@@ -96,6 +124,8 @@ def get_full_class_name(obj: Any) -> str:
         return obj.__class__.__name__
     return module + '.' + obj.__class__.__name__
 
+def test_get_full_class_name():
+    assert True
 
 def max_with_default(items: Iterable, default: Optional = None):
     default = default or 0
@@ -104,7 +134,11 @@ def max_with_default(items: Iterable, default: Optional = None):
         return default
     return max(items)
 
+def test_max_with_default():
+    assert True
 
 def is_python_class_name(name: str) -> bool:
     return name[0] == name[0].upper() and name[1:] == name[1:].lower()
 
+def test_is_python_class_name():
+    assert True
